@@ -18,7 +18,11 @@ public class System {
 
     /*@brief: find the most compatible between 2 geohash */
     public int compare(@NotNull String destination, @NotNull String src) {
-        int minLength = findMin(destination.length(), src.length());
+        if (destination == null || src == null) {
+            throw new IllegalArgumentException("Neither 'destination' nor 'src' can be null.");
+        }
+
+        int minLength = Math.min(destination.length(), src.length());
         int differences = 0;
 
         // Compare each character in both strings up to the minimum length
@@ -38,12 +42,20 @@ public class System {
         return Integer.parseInt(x);
     }
 
-    public<T extends Service> HashMap<Integer, T> findNearestPoint(String center, @NotNull HashMap<String, T> list, int number) {
+    public<T extends Service> HashMap<Integer, T> findNearestPoint(@NotNull String center, @NotNull HashMap<String, T> list, int number) {
         HashMap<Integer, T> topval = new HashMap<>();
+        java.lang.System.out.println(list.size());
         for(HashMap.Entry<String, T> entry : list.entryList()) {
             int distance = compare(center, entry.key);
             topval.put(distance, entry.value);
         }
+
+        java.lang.System.out.println(topval.size());
+//        int i = 0;
+//        for(HashMap.Entry<Integer, T> entry : topval.entryList()) {
+//            java.lang.System.out.println(topval.get(i).getName());
+//            i++;
+//        }
 
         // continute sort here
         sortByKey(topval);
@@ -67,6 +79,9 @@ public class System {
         int i = 0;
         int min = tmp.entryList().get(0).key; // the key integer of first element in the map is assumed min
         for(HashMap.Entry<Integer, T> s : tmp.entryList()) {
+            if(i == tmp.size() - 1) {
+                break;
+            }
             if(tmp.entryList().get(i).key >= tmp.entryList().get(i +1).key) {
                 // swap
                 swap(tmp.entryList(),i, i+1);

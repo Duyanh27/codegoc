@@ -29,12 +29,13 @@ public class Main {
             System.out.println("Choose an option:");
             System.out.println("1. Add Place");
             System.out.println("2. Find Place");
-            System.out.println("3. Exit");
+            System.out.println("3. Set Current Position");
+            System.out.println("4. Exit");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
-            if (choice == 3) {
+            if (choice == 4) {
                 System.out.println("Exiting...");
                 break;
             }
@@ -66,11 +67,11 @@ public class Main {
                                 ATM data = new ATM(new Map2D(x, y), name);
                                 manager.addATM(data);
                                 break;
-                            case "coffee shop":
+                            case "coffeshop":
                                 CoffeShop dataCoffeShop = new CoffeShop(new Map2D(x, y),name);
                                 manager.addCoffeeShop(dataCoffeShop);
                                 break;
-                            case "gas station":
+                            case "gasstation":
                                 GasStation gasStationData = new GasStation(new Map2D(x, y),name);
                                 manager.addGasStation(gasStationData);
                                 break;
@@ -109,6 +110,15 @@ public class Main {
                         // Handle other types or show an error
                         System.out.println("Type not supported or invalid input.");
                     }
+                    break;
+                case 3:
+                    System.out.print("Enter your name: ");
+                    String userName = scanner.nextLine();
+                    System.out.print("Enter your current location (x, y): ");
+                    int userX = scanner.nextInt();
+                    int userY = scanner.nextInt();
+                    manager.setCenter(new Center(new Map2D(userX,userY), userName));
+                    scanner.nextLine(); // Consume newline
                     break;
 
                 default:

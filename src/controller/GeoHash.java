@@ -15,11 +15,13 @@ public class GeoHash {
     private final HashMap<String, Hospital> dataBaseHospital;
     private final HashMap<String, Restaurant> dataBaseRestaurant;
 
-    private Map2D center;
+    private Center user;
+
     private String centerGeoHash;
 
 
     public GeoHash() {
+        user = new Center();
         precision = 0;
         dataBaseGasStation = new HashMap<String, GasStation>();
         dataBaseATM = new HashMap<String, ATM>();
@@ -30,8 +32,7 @@ public class GeoHash {
 
     /*@brief this function to set the center of the given val*/
     public void setCenter(Map2D val) {
-        center = val;
-        centerGeoHash = encode(center);
+        centerGeoHash = encode(val);
     }
 
     /*Add method */
@@ -99,26 +100,31 @@ public class GeoHash {
 
     //------------ Find POI function ------------ //
     public HashMap<Integer, ATM> findATMs() {
-        return new System().findNearestPoint(centerGeoHash, dataBaseATM, 10);
+        return new System().findNearestPoint(centerGeoHash, dataBaseATM, 3);
     }
 
     public HashMap<Integer, CoffeShop> findCoffeeShops() {
-        return new System().findNearestPoint(centerGeoHash, dataBaseCoffeeShop, 10);
+        return new System().findNearestPoint(centerGeoHash, dataBaseCoffeeShop, 3);
     }
 
     public HashMap<Integer, GasStation> findGasStation() {
-        return new System().findNearestPoint(centerGeoHash, dataBaseGasStation, 10);
+        return new System().findNearestPoint(centerGeoHash, dataBaseGasStation, 3);
     }
 
     public HashMap<Integer, Hospital> findHospital() {
-        return new System().findNearestPoint(centerGeoHash, dataBaseHospital, 10);
+        return new System().findNearestPoint(centerGeoHash, dataBaseHospital, 3);
     }
 
     public HashMap<Integer, Restaurant> findRestaurant() {
-        return new System().findNearestPoint(centerGeoHash, dataBaseRestaurant, 10);
+        return new System().findNearestPoint(centerGeoHash, dataBaseRestaurant, 3);
     }
 
     public<T extends Service> void printPlaces(HashMap<Integer, T> data) {
         new System().printAllData(data);
+    }
+
+    public void setCenter(Center data) {
+        user = data;
+        centerGeoHash = encode(user.getCoordinate());
     }
 }
